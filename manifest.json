@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Lecture doubt catcher",
+    "version": "1.0"
+    "description": "A Chrome extension to catch doubts during Youtube lectures and save timestamp to resolve later.",
+    "permissions": [
+        "activeTab",
+        "storage"
+    ], //permission to save/retrieve user data + interact with tab user is currently using
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "icon1.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://*.youtube.com/*"],
+            "js": ["content.js"]
+        }
+    ]
+}
+
