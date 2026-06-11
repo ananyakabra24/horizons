@@ -33,23 +33,8 @@ body {
     font-weight: 500;
 }
 
-.clear-btn {
-    background-color: #3ea6ff;
-    color: #0f0f0f;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 18px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 500;
-    transition: background-color 0.2s;
-}
-
-.clear-btn:hover {
-    background-color: #2d8fdd;
-}
-
 /* Doubts list container */
+
 .doubts-list {
     flex: 1;
     overflow-y: auto;
@@ -82,16 +67,16 @@ body {
 }
 
 .video-title {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 15px;
     color: #f1f1f1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.timestamp {
+.time-saved {
     display: inline-block;
     background-color: #3ea6ff;
     color: #0f0f0f;
@@ -100,16 +85,13 @@ body {
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     transition: background-color 0.2s;
 }
 
-.timestamp:hover {
-    background-color: #2d8fdd;
-}
 
 .doubt-text {
-    font-size: 13px;
+    font-size: 15px;
     color: #dddddd;
     margin: 8px 0;
     line-height: 1.4;
