@@ -1,0 +1,40 @@
+.doubt-page{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px;
+
+}
+
+#videoTitle{
+   font-size: 28px;
+    margin-bottom: 20px;
+}
+
+header{
+    text-align: center;
+}
+
+#question {
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: black;
+}
+
+#fullnotes {
+    width: 100%;
+    min-height: 200px;
+
+    background: #171717;
+
+    color: white;
+
+    border: 1px solid #303030;
+
+    border-radius: 10px;
+
+    padding: 16px;
+
+    font-size: 15px;
+
+    font-family: inherit;
+}

@@ -23,7 +23,7 @@
     ],
     "web_accessible_resources": [
         {
-            "resources": ["dashboard.html", "dashboard.js", "styles.css"],
+            "resources": ["dashboard.html", "dashboard.js", "styles.css", "expanded.html", "expanded.js"],
              "matches": ["*://*.youtube.com/*"]
         }
     ]

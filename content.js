@@ -60,6 +60,7 @@ function showButton() {
             timestampSeconds: currentSeconds,
             timestampDisplay: timestamp,
             doubt: doubtText,
+            notes: "", //option for user to add notes, answers or any text to each card doubt 
             dateSaved: new Date().toISOString()
         };
         

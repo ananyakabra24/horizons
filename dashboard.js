@@ -24,7 +24,22 @@ function loadDoubts() {
                 <div class="video-title">Video: ${doubt.videoTitle}</div>
                 <div class="time-saved">🗓 ${new Date(doubt.dateSaved).toLocaleDateString()}</div>
                 <div class="doubt-text"> Your question: ${doubt.doubt}</div>
+                <div class="notes-section">
+                    <textarea
+                        class="notes-box"
+                        placeholder="Add notes..."
+                        >${doubt.notes || ""} </textarea> 
+                </div>    
                 `; 
+
+                //notes box 
+                 const notesBox = card.querySelector('.notes-box');
+                 notesBox.addEventListener('input', () => {
+                    const doubts = result.doubts || [];
+                    doubts[i].notes = notesBox.value; //update the notes in the doubt object
+                    chrome.storage.local.set({ doubts }); 
+                 }
+                )
 
                 const buttonContainer = document.createElement('div');//container so that all the buttons are nicely organised
                 buttonContainer.className = 'button-container'; 
@@ -59,6 +74,15 @@ function loadDoubts() {
                     solvedBtn.textContent = 'Solved ✅';
 
 
+                    // 4-----expand-----
+                    const openBtn = document.createElement('button');
+                    openBtn.textContent = 'Expand 🔓';
+                    openBtn.className = 'open-btn';
+
+                    openBtn.addEventListener('click', () => {
+                        const url = chrome.runtime.getURL(`expanded.html?id=${i}`); //get url of what doubt is expanded
+                        window.open(url, '_blank');//page opened in new tab
+                    });
 
 
 
@@ -66,6 +90,7 @@ function loadDoubts() {
                 buttonContainer.appendChild(revisitBtn);
                 buttonContainer.appendChild(solvedBtn);
                 buttonContainer.appendChild(deleteBtn);
+                buttonContainer.appendChild(openBtn);
 
             card.appendChild(buttonContainer); //so each card gets its own 3 btn container
 

@@ -84,7 +84,6 @@ body {
     border-radius: 16px;
     font-size: 12px;
     font-weight: 500;
-    cursor: pointer;
     margin-bottom: 5px;
     transition: background-color 0.2s;
 }
@@ -98,21 +97,6 @@ body {
     word-wrap: break-word;
 }
 
-.delete-btn {
-    background-color: #ff4444;
-    color: white;
-    border: none;
-    padding: 4px 10px;
-    border-radius: 16px;
-    cursor: pointer;
-    font-size: 11px;
-    font-weight: 500;
-    transition: background-color 0.2s;
-}
-
-.delete-btn:hover {
-    background-color: #cc0000;
-}
 
 .meta-info {
     display: flex;
@@ -135,6 +119,38 @@ body {
     color: #888888;
 }
 
+/* button container */
+.button-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+/* all the buttons */
+
+.revisit-btn,
+.solved-btn,
+.delete-btn,
+.open-btn{
+    background-color: #272727;
+    color: #f1f1f1;
+    border: 1px solid #3a3a3a;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+
+
+.delete-btn:hover,
+.revisit-btn:hover,
+.solved-btn:hover 
+.open-btn:hover {
+    background: #323232;
+}
+
 /* Scrollbar styling */
 .doubts-list::-webkit-scrollbar {
     width: 6px;
@@ -148,4 +164,22 @@ body {
 .doubts-list::-webkit-scrollbar-thumb {
     background: #3ea6ff;
     border-radius: 3px;
+}
+
+
+.notes-box{
+    width: 100%;
+    min-height: 10px;
+    margin-top: 12px;
+    padding: 10px;
+    background: #171717;
+    border: 1px solid #303030;
+    border-radius: 7px;
+    color: #f1f1f1;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.notes-box ::placeholder{
+    color: white;
 }
