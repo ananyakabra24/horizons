@@ -5,24 +5,55 @@
     <title>My Doubts 🎉</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
+<!--editing to add a sidebar and different views-->
 <body>
-    <div class="container">
-        <div class="header">
-            <h2>📝 My Doubts 📝</h2>
-        </div>
-        
-        <div id="doubtsList" class="doubts-list">
-            <!-- doubts show here -->
-            <div class="empty-state">
-                <p>✨ No doubts yet!</p>
-                <p>Watch a YouTube video and click the "Mark doubt 🤔" button to store more doubts</p>
+
+    <div class ="layout">
+
+        <!--sidebar-->
+        <div class="sidebar">
+            <h2>STUDY PIN 📍</h2>
+
+            <div class="menu">
+                <button id="all-doubts">All doubts</button>
+                <button id="solved">Solved</button>
+                <button id="unsolved">Unsolved</button>
+                <button id="recently-del">Recently Deleted 🗑️</button>
+
             </div>
+
+            <div class="explanation">
+                <h3>How it works 🤨</h3>
+            </div>
+
+
         </div>
-        
-        <div class="footer">
+
+
+
+
+         <!--where we have doubts-->
+        <div class="main-content">
+            <div class="header">
+                <h2>📝 My Doubts 📝</h2>
+            </div>
             
+            <div id="doubtsList" class="doubts-list">
+                <!-- doubts show here -->
+                <div class="empty-state">
+                    <p>✨ No doubts yet!</p>
+                    <p>Watch a YouTube video and click the "Mark doubt 🤔" button to store more doubts</p>
+                </div>
+            </div>
+        
+            <div class="footer"></div>
         </div>
     </div>
+
+
+
+       
     
     <script src="dashboard.js"></script>
 </body>

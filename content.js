@@ -61,7 +61,10 @@ function showButton() {
             timestampDisplay: timestamp,
             doubt: doubtText,
             notes: "", //option for user to add notes, answers or any text to each card doubt 
-            dateSaved: new Date().toISOString()
+            solved: false,
+            deleted: false,
+            dateSaved: new Date().toISOString(),
+            id: Date.now() //adding unique id since indexes become unreliable due to so many views
         };
         
         //chrome storage
