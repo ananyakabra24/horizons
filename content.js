@@ -1,3 +1,5 @@
+// content js - field worker
+
 // USED TO CREATE DOUBTS
 
 // making the page show the button if youtube.com is the current page, and if it has fully loaded
@@ -31,14 +33,20 @@ function showButton() {
     button.onmouseenter = () => button.style.backgroundColor = '#2d8fdd';
     button.onmouseleave = () => button.style.backgroundColor = 'black';
 
+   
+   
+   
     button.onclick = () => {
         // Get the current video element
         const video = document.querySelector('video');
-        if (!video) {
+     /*   if (!video) {
             alert('No video found!');
             return;
-        } //no video element visible so return (if some error)
+        } identified redundancy since obv no need of another if else checking if there is a video, since thats the first condition at the top already */
         
+
+
+
         // Get current time in seconds for the timestamp
         const currentSeconds = video.currentTime;
         
@@ -47,6 +55,8 @@ function showButton() {
         const seconds = Math.floor(currentSeconds % 60);
         const timestamp = `${minutes}:${seconds.toString().padStart(2, '0')}`; //new variable showing timestamp in basic timestamp format
         
+
+
         //ask (have to be converted into a better popup instead of system popup)
         const doubtText = prompt(`What's your doubt at ${timestamp}?`, '');
         
@@ -57,15 +67,17 @@ function showButton() {
         const doubtData = {
             videoUrl: window.location.href,
             videoTitle: document.title,
-            timestampSeconds: currentSeconds,
-            timestampDisplay: timestamp,
-            doubt: doubtText,
+            timestampSeconds: currentSeconds, //created variable
+            timestampDisplay: timestamp, //timestamped version
+            doubt: doubtText, //what the doubt is
             notes: "", //option for user to add notes, answers or any text to each card doubt 
             solved: false,
             deleted: false,
             dateSaved: new Date().toISOString(),
             id: Date.now() //adding unique id since indexes become unreliable due to so many views
         };
+
+        
         
         //chrome storage
         chrome.storage.local.get(['doubts'], (result) => { //existing doubts array fetched, or else if nothing is there then empty array begins

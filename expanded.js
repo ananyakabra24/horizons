@@ -1,5 +1,5 @@
 
-
+//expanded js
 
 const params = new URLSearchParams(window.location.search); //looks at the part after the ? in url, example if here it read id = 3, it'll be used next
 const doubtId = parseInt(params.get('id')); //converts the 3 string to 3 text so that it can be read so now we hv the index of the doubt we want to open

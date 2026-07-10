@@ -1,3 +1,5 @@
+//background js
+
 console.log("Background script loaded!");
 
 // Listen for messages from content.js

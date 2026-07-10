@@ -1,3 +1,5 @@
+<!-- dashboard html -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +22,16 @@
                 <button id="solved">Solved</button>
                 <button id="unsolved">Unsolved</button>
                 <button id="recently-del">Recently Deleted 🗑️</button>
+                <button  class="create-folder-btn" id="create-folder"> + Create a folder</button>
+
+                <!-- to show the folders-->
+
+                <div class="folders-head">
+                    YOUR FOLDERS
+                </div>
+                <div id="folders-list">
+
+                </div>
 
             </div>
 
@@ -38,6 +50,11 @@
             <div class="header">
                 <h2>📝 My Doubts 📝</h2>
             </div>
+
+            <button id="empty-trash-btn"
+                style = "display: none;">
+                Empty trash forever 🗑️
+            </button>
             
             <div id="doubtsList" class="doubts-list">
                 <!-- doubts show here -->

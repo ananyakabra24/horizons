@@ -221,3 +221,54 @@ body {
     color: white;
 
 }
+
+.create-folder-btn{
+    background: #3ea6ff !important;
+    color: #0f0f0f !important;
+    font-weight: 600;
+    margin-top: 12px;
+    margin-bottom: 8px;
+
+}
+
+
+.create-folder-btn:hover{
+    background: #2d8fdd !important;
+}
+
+#folders-list{
+    margin-left: 18px;
+    margin-top: 4px;
+    margin-bottom: 20px;
+}
+
+.folder-btn{
+    background: transparent;
+    border: none;
+    color: #b0b0b0;
+
+    width: 100%;
+    text-align: left;
+
+    padding: 8px 10px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+.folder-btn:hover{
+    background: #252525;
+    color: white;
+    border-radius: 6px;
+}
+
+.folders-heading{
+    margin-top: 16px;
+    margin-bottom: 6px;
+
+    font-size: 11px;
+    letter-spacing: 1px;
+
+    color: #777;
+}

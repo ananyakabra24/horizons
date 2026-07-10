@@ -1,13 +1,97 @@
+//dashboard js
+
+
+//migration - keeps reloading
+
+//migration - updates old doubts to the latest version
+
+function migrateDoubts() {
+    chrome.storage.local.get(['doubts'], (result) => {
+        const doubts = result.doubts || [];
+        let changed = false;
+
+        doubts.forEach(doubt => {
+
+            if (doubt.id === undefined) {
+                doubt.id = crypto.randomUUID();
+                changed = true;
+            }
+
+            if (doubt.notes === undefined) {
+                doubt.notes = "";
+                changed = true;
+            }
+
+            if (doubt.deleted === undefined) {
+                doubt.deleted = false;
+                changed = true;
+            }
+
+            if (doubt.solved === undefined) {
+                doubt.solved = false;
+                changed = true;
+            }
+
+            if (doubt.folderId === undefined) {
+                doubt.folderId = null;
+                changed = true;
+            }
+
+        });
+
+        if (changed) {
+            chrome.storage.local.set({ doubts });
+        }
+    });
+}
+
 // USED TO DISPLAY DOUUBTS
 
 
+
+//folders list function
+
+function loadFolders() {
+    //console.log("loadFolders running");
+    const allFolders = document.getElementById('folders-list');
+    chrome.storage.local.get(['folders'], (result) => {
+        const folders = result.folders || []; 
+        // console.log("Folders found:", folders); to test
+
+        allFolders.innerHTML = ''; //so that it doesnt show suplicates, we clear ir everytime 
+        folders.forEach(folder => { //repeats the steps inside for EACH folder in the array
+            const folderBtn = document.createElement('button'); //creates a new button -> which is actually our new folder
+            folderBtn.textContent = `📁 ${folder.name}`; //name is input
+            folderBtn.className = 'folder-btn'; //to style
+            allFolders.appendChild(folderBtn); //show it
+        })
+    })
+}
+
+
 //views
+
+
+
 
 let currentView = 'all' 
 
 
 
+
+
+
+
+
+
 function loadDoubts() {
+    const emptyTrashBtn = document.getElementById('empty-trash-btn')
+    if (currentView === 'deleted') {
+    emptyTrashBtn.style.display = 'block'; //only display in the deleted view
+}
+    else {
+    emptyTrashBtn.style.display = 'none';
+}
     const container = document.getElementById('doubtsList'); //container to show doubts
     
     chrome.storage.local.get(['doubts'], (result) => {
@@ -50,6 +134,8 @@ function loadDoubts() {
         
         for (let i = 0; i < filteredDoubts.length; i++) { //loop to repeat this for all doubts
             const doubt = filteredDoubts[i]; 
+            console.log(doubt);
+console.log("ID:", doubt.id); //test
             const doubtId = doubt.id;
             const card = document.createElement('div'); //card doubt will hv video title, timestamp, doubt, and a button to delete it
             
@@ -70,13 +156,16 @@ function loadDoubts() {
                 //notes box 
                  const notesBox = card.querySelector('.notes-box');
                  notesBox.addEventListener('input', () => {
-                    const doubts = result.doubts || [];
-                    // doubts[i].notes = notesBox.value; //update the notes in the doubt object
-                    const doubtToUpdate = doubts.find(
-                        doubt => doubt.id === doubtId
-                    );
-                    doubtToUpdate.notes = notesBox.value;
-                    chrome.storage.local.set({ doubts }); 
+                    chrome.storage.local.get(['doubts'], (result) => {
+                        const doubts = result.doubts || [];
+                        const doubtToUpdate = doubts.find(
+                            doubt => doubt.id === doubtId
+                        );
+                        if (doubtToUpdate) {
+                            doubtToUpdate.notes = notesBox.value;
+                            chrome.storage.local.set({ doubts }); 
+                        }
+                    });
                  }
                 )
 
@@ -86,10 +175,26 @@ function loadDoubts() {
                     //1----delete button----
                     const deleteBtn = document.createElement('button'); //chrome blocks inline js
                     deleteBtn.className = 'delete-btn'; //class to style 
-                    deleteBtn.textContent = 'Delete ❌';
+                    if (currentView === 'deleted') {
+                        deleteBtn.textContent = 'Put back ⏪';
+                    }
+                    else {
+                        deleteBtn.textContent = 'Delete ❌';
+
+                    }
                     deleteBtn.addEventListener('click', () => { //addeventlistener calls the deletedoubt function
-                        deleteDoubt(doubtId);
-});
+                    
+                           console.log("Delete clicked:" , doubtId)
+
+                        if (currentView === 'deleted') {
+                                restoreDoubt(doubtId)
+
+                            }
+                            else {
+                                deleteDoubt(doubtId);
+                            }
+
+                    });
 
 
                     // 2------revisit button------
@@ -119,17 +224,22 @@ function loadDoubts() {
 
 
                     solvedBtn.addEventListener('click', () => { //when solved is clicked
-                        const doubts = result.doubts || []; //emoty array line again
-                        //doubts[i].solved = !doubts[i].solved; //when the buttin is clicked it changes the status of the card - so basically if it was false then this becomes true (this helps also in viewing the solved view)
-                        
-                        const doubtToUpdate = doubts.find(
-                            doubt => doubt.id === doubtId
-                        );
+                        chrome.storage.local.get(['doubts'], (result) => {
+                            console.log("solved clicked:" , doubtId) //testin
 
-                        doubtToUpdate.solved = !doubtToUpdate.solved;
+                            const doubts = result.doubts || []; //emoty array line again
+                            
+                            const doubtToUpdate = doubts.find(
+                                doubt => doubt.id === doubtId
+                            );
 
-                        chrome.storage.local.set({ doubts }, () => {
-                            loadDoubts();
+                            if (doubtToUpdate) {
+                                doubtToUpdate.solved = !doubtToUpdate.solved;
+
+                                chrome.storage.local.set({ doubts }, () => {
+                                    loadDoubts();
+                                });
+                            }
                         });
                     });
 
@@ -173,12 +283,55 @@ function loadDoubts() {
             const doubtToDelete = doubts.find(
                 doubt => doubt.id === id //find the doubt with the same id and then delete that
             );
-            doubtToDelete.deleted = true;
-            chrome.storage.local.set({doubts: doubts },() =>{ //sets new doubt array after we hv removed
-                loadDoubts(); //now the first function to show/load doubts on dashboard.html
-            })
+            if (doubtToDelete) {
+                doubtToDelete.deleted = true;
+                chrome.storage.local.set({doubts: doubts },() =>{ //sets new doubt array after we hv removed
+                    loadDoubts(); //now the first function to show/load doubts on dashboard.html
+                })
+            }
         })
     }
+
+    function restoreDoubt(id) {
+        chrome.storage.local.get(['doubts'], (result) => {
+
+        const doubts = result.doubts || [];
+
+        const doubtToRestore = doubts.find(
+            doubt => doubt.id === id //find the doubt w the same id
+ 
+        );
+
+        if (doubtToRestore) {
+            doubtToRestore.deleted = false;
+
+            chrome.storage.local.set({ doubts }, () => {
+                loadDoubts();
+            });
+        }
+
+    });
+}
+
+    function emptyTrash() {
+        if (!confirm('Are you sure you want to permanently clear trash? Cannot be undone')) //new js unlocked - confirm popup before performing action
+            return;
+
+        chrome.storage.local.get(['doubts'], (result) => {
+
+        const doubts = result.doubts || [];
+
+        const remainingDoubts = doubts.filter(
+            doubt => doubt.deleted !== true //only keep the card if it is not in deleted view, these list of cards = remaining doubts 
+        );
+
+        chrome.storage.local.set({ doubts: remainingDoubts }, () => {
+            loadDoubts(); //which will be reloaded as the fresh set of doubts
+        });
+
+    });
+}
+
 
     //views that show when button clicked
     document.getElementById('all-doubts').addEventListener('click',() => {
@@ -197,11 +350,40 @@ function loadDoubts() {
         currentView = 'deleted';
         loadDoubts();
     });
+    document.getElementById('empty-trash-btn').addEventListener('click',() => {
+        emptyTrash();
+    });
+
+    document.getElementById('create-folder').addEventListener('click', () => {
+
+        const folderName = prompt('What would you like to name your folder?');
+        if (!folderName) return;
+
+        chrome.storage.local.get(['folders'], (result) =>{
+            const folders = result.folders || []; //find the already existing array or create a new array if none stays
+
+            folders.push({ //pushes the folder into the array
+                id: Date.now(), //unique id for each
+                name: folderName //name we typed
+            });
+
+            chrome.storage.local.set({ folders }, () => {
+                loadFolders(); //function runs to show updated list of folders
+            }) //updated list saved in chrome storage
+        });
+    });
 
 
 
-document.addEventListener('DOMContentLoaded', loadDoubts);
+document.addEventListener('DOMContentLoaded', () => {
+    migrateDoubts(); //first all new doubts added to the array so that indexing doesnt get messed
 
+    setTimeout(() => { //waiting for 100 milliseconds since indexing gets messed up easily 
+        loadDoubts();
+        loadFolders();
+    }, 100);
+});
 
 // the reason delete button has a seperate function instead of keeping it inline like revisit is bec it has much more steps involved compared to revisit (which is just opening a url)
 // so it wouldnt make sense to have it inside load doubts or else the function would become hugee
+
